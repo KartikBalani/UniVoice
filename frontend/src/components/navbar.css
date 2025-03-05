@@ -1,0 +1,165 @@
+/* navbar.css - Extreme left and right positioning */
+
+.NavContainer {
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.NavContainer nav {
+  display: flex;
+  justify-content: space-between; /* Pushes children to the edges */
+  align-items: center;
+  height: 70px; /* Slightly taller navbar */
+  padding: 0 20px;
+  max-width: 100%; /* Full width */
+  margin: 0 auto; /* Center the navbar */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-right: auto; /* Pushes logo to the extreme left */
+}
+
+.logo-placeholder {
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  color: #333; /* Dark gray for logo */
+  font-weight: bold;
+  font-size: 24px; /* Larger logo text */
+  font-family: 'Georgia', serif; /* Serif font for a news-like feel */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  margin-left: auto; /* Pushes nav-links to the extreme right */
+}
+
+.nav-links li {
+  position: relative;
+  margin: 0 10px; /* Slightly more spacing between links */
+}
+
+.NavContainer button {
+  background: none;
+  border: none;
+  color: #333; /* Dark gray for text */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  font-family: 'Arial', sans-serif; /* Clean sans-serif font */
+}
+
+.NavContainer button:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Light hover effect */
+}
+
+.NavContainer button.active {
+  background-color: rgba(0, 0, 0, 0.1); /* Slightly darker for active state */
+  color: #000; /* Black for active text */
+}
+
+/* Dropdown styles */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-container > button::after {
+  content: "▼";
+  font-size: 10px;
+  margin-left: 5px;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-container.open > button::after {
+  transform: rotate(180deg);
+}
+
+.dropDown {
+  position: absolute;
+  top: 100%;
+  min-width: 180px;
+  background-color: #ffffff; /* White background */
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 101;
+  margin-top: 5px;
+  animation: fadeIn 0.2s ease;
+  right: 0; /* Align dropdown to the right */
+}
+
+.dropDown button {
+  color: #333; /* Dark gray for text */
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 14px;
+  border: none;
+  background: none;
+  width: 100%;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.dropDown button:hover {
+  background-color: #f5f5f5; /* Light gray hover */
+}
+
+/* Animation for dropdown appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .NavContainer nav {
+    flex-direction: row; /* Keep row layout for mobile */
+    height: auto;
+    padding: 10px 20px;
+  }
+
+  .logo-container {
+    margin-bottom: 0; /* Remove margin for mobile */
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Align links to the right */
+    width: auto; /* Allow nav-links to take up only necessary space */
+  }
+
+  .nav-links li {
+    margin: 5px;
+  }
+
+  .dropDown {
+    width: 100%;
+    position: relative;
+    box-shadow: none;
+    margin-top: 5px;
+  }
+}

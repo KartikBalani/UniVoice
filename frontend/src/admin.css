@@ -1,0 +1,104 @@
+/* admin.css */
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .containerAdmin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between sections */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Common Styles for All Sections */
+  .accepted,
+  .rejected,
+  .pending {
+    flex: 1 1 calc(33.333% - 40px); /* Three equal columns with gap */
+    background-color: #ffffff; /* White background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* Required for button positioning */
+  }
+  
+  .accepted:hover,
+  .rejected:hover,
+  .pending:hover {
+    cursor: grab;
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  }
+  
+  /* Make Buttons Cover Entire Div and Transparent */
+  .accepted button,
+  .rejected button,
+  .pending button {
+    position: absolute; /* Position the button absolutely within the parent */
+    top: 0;
+    left: 0;
+    width: 100%; /* Cover entire width */
+    height: 100%; /* Cover entire height */
+    background-color: transparent; /* Transparent background */
+    border: none; /* Remove default button border */
+    cursor: pointer; /* Show pointer cursor on hover */
+    padding: 0; /* Remove default padding */
+    font-size: 24px; /* Match the font size of the h1 */
+    font-weight: bold; /* Match the font weight of the h1 */
+    color: transparent; /* Hide button text (optional) */
+  }
+  
+  /* Section Headers */
+  .accepted h1,
+  .rejected h1,
+  .pending h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333; /* Dark gray text */
+    pointer-events: none; /* Ensure clicks go through to the button */
+  }
+  
+  /* Accepted Articles Section */
+  .accepted {
+    border-left: 5px solid #28a745; /* Green border for accepted */
+  }
+  
+  .accepted h1 {
+    color: #28a745; /* Green text for accepted */
+  }
+  
+  /* Rejected Articles Section */
+  .rejected {
+    border-left: 5px solid #dc3545; /* Red border for rejected */
+  }
+  
+  .rejected h1 {
+    color: #dc3545; /* Red text for rejected */
+  }
+  
+  /* Pending Articles Section */
+  .pending {
+    border-left: 5px solid #ffc107; /* Yellow border for pending */
+  }
+  
+  .pending h1 {
+    color: #ffc107; /* Yellow text for pending */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .accepted,
+    .rejected,
+    .pending {
+      flex: 1 1 100%; /* Full width on smaller screens */
+      margin-bottom: 20px;
+    }
+  }
