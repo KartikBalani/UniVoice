@@ -16,7 +16,7 @@ const NewsSchema = new mongoose.Schema({
         },
     ],
     EditorId : {type : String , required : true},
-    Status : {type : String , enum : ["accepted" , "rejected" , "pending"]}, 
+    Status : {type : String , enum : ["accepted" , "rejected" , "pending"],default:"pending"},
   });
   
 

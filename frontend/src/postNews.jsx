@@ -1,36 +1,97 @@
-import React from 'react'
-import {useForm} from 'react-hook-form'
-import axios from 'axios';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import "./postNews.css";
+import axios from "axios";
 
-const postNews = () => {
+const PostNews = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [categories, setCategories] = useState([]);
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-      } = useForm();
-    
-      const onSubmit = (data) => {
-        
-      };
+  const handleCategories = (value) => {
+    setCategories((prevCategories) =>
+      prevCategories.includes(value)
+        ? prevCategories.filter((item) => item !== value) // Remove category
+        : [...prevCategories, value] // Add category
+    );
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData(); // Using FormData for file uploads
+
+    // Append text fields
+    formData.append("Description", data.Description);
+    formData.append("article", data.article);
+
+    // Append files (thumbnail + images)
+    if (data.thumbnail[0]) {
+      formData.append("thumbnail", data.thumbnail[0]);
+    }
+    if (data.images.length > 0) {
+      Array.from(data.images).forEach((image) => {
+        formData.append("images", image);
+      });
+    }
+
+    // Append categories as JSON string (backend must parse it)
+    formData.append("categories", JSON.stringify(categories));
+
+    console.log("Submitting form data:", formData);
+
+    try {
+      await axios.post("http://localhost:3000/postNews", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Form submitted successfully!");
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      alert("Form not submitted!");
+    }
+  };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onsubmit)}>
-       <input type="text" placeholder="#Description" {...register('description',{required:true})}/>
-       <input type="file" placeholder="#Thumbnail" {...register('thumbnail',{required:true})}/>
-       <input type="text" placeholder="#article" {...register('article',{required:true})}/>
-       <select {...register('categories', { required: true })}>
-          <option value="club">Club</option>
-          <option value="college">college</option>
-          <option value="cultural">cultural</option>
-          <option value="success">success</option>
-          <option value="alumni">alumni</option>
-        </select>
-        <input type="submit" disabled={isSubmitting} value="Submit" />
-      </form>
-    </div>
-  )
-}
+    <div className="postNews-Container">
+      <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>
+        Submit News Article
+      </h2>
 
-export default postNews
+      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+        <input type="text" {...register("Description", { required: true })} placeholder="Enter a Description" />
+        {errors.Description && <p>Description is mandatory</p>}
+
+        <input type="file" {...register("thumbnail", { required: true })} />
+        {errors.thumbnail && <p>Enter a Thumbnail</p>}
+
+        <textarea {...register("article", { required: true, minLength: 50 })} placeholder="Enter the article here"></textarea>
+        {errors.article && <p>Article length should be at least 50 characters</p>}
+
+        <input type="file" {...register("images")} multiple />
+        {errors.images && <p>Enter images</p>}
+
+        {/* Categories - State-based Selection */}
+        <div className="categories">
+          <h5>Select Categories (one or more)</h5>
+          {["club", "college", "alumni", "success", "events"].map((category) => (
+            <label key={category}>
+              <input
+                type="checkbox"
+                checked={categories.includes(category)} // ✅ Simplified condition
+                onChange={() => handleCategories(category)}
+              />
+              {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize first letter */}
+            </label>
+          ))}
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      {/* Debugging Output */}
+      <h3>Selected Categories:</h3>
+      <pre>{JSON.stringify(categories, null, 2)}</pre>
+    </div>
+  );
+};
+
+export default PostNews;
