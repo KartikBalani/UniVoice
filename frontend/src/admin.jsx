@@ -1,27 +1,75 @@
-import React from "react";
+import "react";
 import Navbar from "./components/navbar";
 import "./admin.css";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Card from "./components/card";
+import AcceptCard from "./components/approvedNewCard";
+import RejectCard from "./components/rejectedNewsCard";
+import PendingCard from "./components/pendingNewsCard"; // Don't forget this import!
 
-const admin = () => {
+const Admin = () => {
   const [status, setStatus] = useState("pending");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const navigate = useNavigate();
 
+
+  // Add this function in Admin.jsx
+  const updateLocalStatus = (id, newStatus) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item._id === id ? { ...item, Status: newStatus } : item
+      )
+    );
+  };
+
+
+  function SelectCard(props) {
+    const { status, description, article, id, onStatusUpdate } = props;
+  
+    if (status === "accepted") {
+      return (
+        <AcceptCard
+          description={description}
+          article={article}
+          id={id}
+          status={status}
+          onStatusUpdate={onStatusUpdate}
+        />
+      );
+    } else if (status === "rejected") {
+      return (
+        <RejectCard
+          description={description}
+          article={article}
+          id={id}
+          status={status}
+          onStatusUpdate={onStatusUpdate}
+        />
+      );
+    } else {
+      return (
+        <PendingCard
+          description={description}
+          article={article}
+          id={id}
+          status={status}
+          onStatusUpdate={onStatusUpdate}
+        />
+      );
+    }
+  }
+  
+
+  // 👉 Fetch data based on current selected status
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin", {
-        params: { status },
-      })
+      .get("http://localhost:3000/admin", { params: { status } })
       .then((result) => {
-        console.log(result.data);
+        console.log("Fetched data:", result.data);
         setData(result.data);
       })
-      .catch((err) => {
+      .catch(() => {
         alert("Could not fetch data!");
       });
   }, [status]);
@@ -31,33 +79,15 @@ const admin = () => {
       <Navbar />
       <div className="containerAdmin">
         <div className="accepted">
-          <button
-            onClick={() => {
-              setStatus("accepted");
-              navigate("/admin");
-            }}
-          >  
-          </button>
+          <button onClick={() => setStatus("accepted")}>Accepted</button>
           <h1>Accepted Articles</h1>
         </div>
         <div className="rejected">
-          <button
-            onClick={() => {
-              setStatus("rejected");
-              navigate("/admin");
-            }}
-          >
-          </button>
-          <h1>rejected Articles</h1>
+          <button onClick={() => setStatus("rejected")}>Rejected</button>
+          <h1>Rejected Articles</h1>
         </div>
         <div className="pending">
-          <button
-            onClick={() => {
-              setStatus("pending");
-              navigate("/admin");
-            }}
-          >
-          </button>
+          <button onClick={() => setStatus("pending")}>Pending</button>
           <h1>Pending Articles</h1>
         </div>
       </div>
@@ -65,20 +95,23 @@ const admin = () => {
       <hr />
 
       <div className="cards">
-        {data ? (
-          data.map((item, index) => (
-            <Card
-              key={index}
-              description={item.description}
+        {data && data.length > 0 ? (
+          data.map((item) => (
+            <SelectCard
+              key={item._id}
+              id={item._id}
+              description={item.Description}
               article={item.article}
+              status={item.Status}
+              onStatusUpdate={updateLocalStatus}
             />
           ))
         ) : (
-          <p>Loading...</p>
+          <p>Loading or No Articles Found</p>
         )}
       </div>
     </>
   );
 };
 
-export default admin;
+export default Admin;
