@@ -1,19 +1,19 @@
-import express from 'express'
-const router = express.Router()
-import NewsData from "../models/News.js"
+import express from 'express';
+const router = express.Router();
+import NewsData from "../models/News.js";
 
-router.get('/',async (req , res) => {
-    const status = req.query.status;
-    console.log(status);
+router.get('/', async (req, res) => {
+  const status = req.query.status;
+  console.log("Requested status:", status);
 
-    await NewsData.find({"Status" : status , "EditorId" : "editor200"}).sort({Date:-1})
-    .then(data => {
-        console.log(data);
-        res.status(200).send(data);
-    })
-    .catch(err=>{
-        res.status(404).json({"error" : "Could not find data"});
-    })
-})
+  try {
+    const data = await NewsData.find({ Status: status });
+    console.log("Fetched data:", data);
+    res.status(200).send(data);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    res.status(404).json({ error: "Could not fetch data" });
+  }
+});
 
-export default router
+export default router;

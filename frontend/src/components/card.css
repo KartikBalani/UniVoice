@@ -1,4 +1,4 @@
-/* card.css - Light theme for news website */
+/* /* card.css - Light theme for news website */
 
 .card {
     background-color: #ffffff; /* White background */
@@ -57,3 +57,4 @@
 .card:hover {
     animation: cardHover 0.5s ease;
 }
+
