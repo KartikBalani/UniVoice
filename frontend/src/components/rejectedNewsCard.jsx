@@ -1,11 +1,10 @@
 import "./rejectcard.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RejectCard = ({ id, description, article, status, onStatusUpdate }) => {
-  const handleClick = () => {
-    window.open(article, "_blank");
-  };
 
+  const navigate = useNavigate();
   const handleAccept = async (e) => {
     e.stopPropagation();
     try {
@@ -26,7 +25,7 @@ const RejectCard = ({ id, description, article, status, onStatusUpdate }) => {
   };
 
   return (
-    <div className="reject-card" onClick={handleClick}>
+    <div className="reject-card" onClick={() => navigate(`/ViewNews/${id}`)}>
       <div className="reject-content">
         <div className="id">ID: {id}</div>
         <div className="description">Description: {description}</div>

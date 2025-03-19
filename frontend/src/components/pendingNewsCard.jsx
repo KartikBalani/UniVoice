@@ -1,18 +1,12 @@
 import { useState } from "react";
 import "./pendingcard.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const PendingCard = ({ id, description, article, status, onStatusUpdate }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
-
-  const handleClick = () => {
-    if (article) {
-      window.open(article, "_blank");
-    } else {
-      alert("No article link provided!");
-    }
-  };
+  const navigate = useNavigate();
 
   const handleRejectClick = (e) => {
     e.stopPropagation();
@@ -61,7 +55,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate }) => {
   return (
     <>
       {/* Card Component */}
-      <div className="pending-card" onClick={handleClick}>
+      <div className="pending-card" onClick={() => navigate(`/ViewNews/${id}`)}>
         <div className="description">{description}</div>
         <div className="article">{article}</div>
 

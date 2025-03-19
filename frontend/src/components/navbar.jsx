@@ -14,7 +14,7 @@ const Navbar = ({ setCategory }) => {
         {/* Logo container at extreme left */}
         <div className="logo-container">
           {/* This div can be replaced with your logo component later */}
-          <img src="chrome_xb1xWiWoWg.png" alt="Logo" style={{width : "9rem"}}/>
+          <img src="/chrome_xb1xWiWoWg.png" alt="Logo" style={{width : "9rem"}}/>
         </div>
         
         {/* Navigation items at extreme right */}

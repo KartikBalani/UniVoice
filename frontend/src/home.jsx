@@ -73,7 +73,7 @@ const Home = () => {
             description={item.Description}
             article={item.Article}
             EditorId={item.EditorId}
-            Date={item.Date}
+            Date={new Date(item.Date).toLocaleDateString()}
             id={item._id}
           />
         ))}
