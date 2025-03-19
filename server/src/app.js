@@ -9,6 +9,7 @@ import AdminNews from "./routes/AdminNews.js";
 import PostNews from "./routes/postNews.js";
 import AdminStatusUpdate from "./routes/AdminStatusUpdate.js"; // ✅ NEW IMPORT
 import dotenv from "dotenv";
+import ViewNews from "./routes/viewNews.js";
 
 const app = express();
 const port = 3000;
@@ -34,6 +35,7 @@ app.use("/", News);
 app.use("/admin", AdminNews);
 app.use("/admin", AdminStatusUpdate);  // ✅ REGISTER THE NEW STATUS UPDATE ROUTE
 app.use("/postNews", PostNews);
+app.use("/viewNews",ViewNews);
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

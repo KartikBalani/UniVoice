@@ -4,6 +4,7 @@ import Home from './home'
 import {BrowserRouter , Routes , Route} from 'react-router-dom'
 import Admin from './admin'
 import PostNews from './postNews'
+import ViewNews from './viewNews'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
            <Route path='/' element={<Home/>}></Route>
            <Route path='/admin' element={<Admin/>}></Route>
            <Route path='/post' element={<PostNews/>}></Route>
+           <Route path='/viewNews/:slug' element={<ViewNews/>}></Route>
           </Routes>
          </BrowserRouter>
 

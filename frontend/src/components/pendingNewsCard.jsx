@@ -61,7 +61,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate }) => {
   return (
     <>
       {/* Card Component */}
-      <div className="card" onClick={handleClick}>
+      <div className="pending-card" onClick={handleClick}>
         <div className="description">{description}</div>
         <div className="article">{article}</div>
 
