@@ -1,37 +1,45 @@
-import React from "react";
+import "./rejectcard.css";
 import axios from "axios";
 
-const RejectCard = (props) => {
-    const handleClick = () => {
-      window.open(props.article, "_blank");
-    };
-  
-    const handleAccept = async (e) => {
-      e.stopPropagation();
-      try {
-        const res = await axios.patch(
-          `http://localhost:3000/admin/update-status/${props.id}`,
-          { status: "accepted" }
-        );
-        if (props.onStatusUpdate) props.onStatusUpdate(props.id, "accepted");
-        console.log("Updated:", res.data);
-      } catch (err) {
-        console.log("Update error:", err.response?.data || err.message);
-        alert("Failed to update status");
-      }
-    };
-  
-    return (
-      <div className="card" onClick={handleClick}>
-        <div className="description">{props.description}</div>
-        <div className="article">{props.article}</div>
-        <div className="status">{props.status}</div>
-        <button className="alert-button" onClick={handleAccept}>
+const RejectCard = ({ id, description, article, status, onStatusUpdate }) => {
+  const handleClick = () => {
+    window.open(article, "_blank");
+  };
+
+  const handleAccept = async (e) => {
+    e.stopPropagation();
+    try {
+      // Update status dynamically based on current status
+      const updatedStatus = status === "rejected" ? "accepted" : status;
+
+      const res = await axios.patch(
+        `http://localhost:3000/admin/update-status/${id}`,
+        { status: updatedStatus }
+      );
+
+      if (onStatusUpdate) onStatusUpdate(id, updatedStatus);
+      console.log("Updated:", res.data);
+    } catch (err) {
+      console.error("Update error:", err.response?.data || err.message);
+      alert("Failed to update status. Please try again.");
+    }
+  };
+
+  return (
+    <div className="reject-card" onClick={handleClick}>
+      <div className="reject-content">
+        <div className="id">ID: {id}</div>
+        <div className="description">Description: {description}</div>
+        <div className="article">Article: {article}</div>
+        <div className="status">Status: {status}</div>
+      </div>
+      <div className="reject-button-container">
+        <button className="accept-button" onClick={handleAccept}>
           Accept News
         </button>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
-  
 export default RejectCard;
