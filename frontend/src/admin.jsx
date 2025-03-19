@@ -25,7 +25,7 @@ const Admin = () => {
 
 
   function SelectCard(props) {
-    const { status, description, article, id, onStatusUpdate } = props;
+    const { status, description, article, id, onStatusUpdate , thumbnail } = props;
   
     if (status === "accepted") {
       return (
@@ -35,6 +35,7 @@ const Admin = () => {
           id={id}
           status={status}
           onStatusUpdate={onStatusUpdate}
+          thumbnail={thumbnail}
         />
       );
     } else if (status === "rejected") {
@@ -45,6 +46,7 @@ const Admin = () => {
           id={id}
           status={status}
           onStatusUpdate={onStatusUpdate}
+          thumbnail={thumbnail}
         />
       );
     } else {
@@ -55,6 +57,7 @@ const Admin = () => {
           id={id}
           status={status}
           onStatusUpdate={onStatusUpdate}
+          thumbnail={thumbnail}
         />
       );
     }
@@ -103,6 +106,7 @@ const Admin = () => {
               description={item.Description}
               article={item.article}
               status={item.Status}
+              thumbnail={item.Thumbnail}
               onStatusUpdate={updateLocalStatus}
             />
           ))

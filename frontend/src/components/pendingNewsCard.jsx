@@ -3,7 +3,7 @@ import "./pendingcard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const PendingCard = ({ id, description, article, status, onStatusUpdate }) => {
+const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnail }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const navigate = useNavigate();
@@ -56,6 +56,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate }) => {
     <>
       {/* Card Component */}
       <div className="pending-card" onClick={() => navigate(`/ViewNews/${id}`)}>
+        <img src={thumbnail} alt="thumbnail" />
         <div className="description">{description}</div>
         <div className="article">{article}</div>
 

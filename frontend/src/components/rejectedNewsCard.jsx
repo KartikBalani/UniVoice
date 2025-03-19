@@ -2,7 +2,7 @@ import "./rejectcard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const RejectCard = ({ id, description, article, status, onStatusUpdate }) => {
+const RejectCard = ({ id, description, article, status, onStatusUpdate , thumbnail }) => {
 
   const navigate = useNavigate();
   const handleAccept = async (e) => {
@@ -27,6 +27,7 @@ const RejectCard = ({ id, description, article, status, onStatusUpdate }) => {
   return (
     <div className="reject-card" onClick={() => navigate(`/ViewNews/${id}`)}>
       <div className="reject-content">
+        <img src={thumbnail} alt="thumbnail" />
         <div className="id">ID: {id}</div>
         <div className="description">Description: {description}</div>
         <div className="article">Article: {article}</div>

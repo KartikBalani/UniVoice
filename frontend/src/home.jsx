@@ -63,7 +63,7 @@ const Home = () => {
         {cardData.length === 0 && (
           <img className="Clg_Image" src="images.jpeg" alt="IIIT KOTTAYAM" />
         )}
-      </div>
+      </div><hr />
 
       <div className="cards">
         {cardData.map((item, index) => (

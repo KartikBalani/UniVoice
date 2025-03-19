@@ -14,13 +14,13 @@ const Navbar = ({ setCategory }) => {
         {/* Logo container at extreme left */}
         <div className="logo-container">
           {/* This div can be replaced with your logo component later */}
-          <img src="/chrome_xb1xWiWoWg.png" alt="Logo" style={{width : "9rem"}}/>
+          <img src="/chrome_xb1xWiWoWg.png" alt="Logo" style={{width : "9rem"}} onClick={() => navigate("/")}/>
         </div>
         
         {/* Navigation items at extreme right */}
         <ul className="nav-links">
           <li>
-            <button className="home" onClick={() => {navigate('/'); setCategory("tag1");}}>
+            <button className="home" onClick={() => {navigate('/'); setCategory(null);}}>
               Home
             </button>
           </li>

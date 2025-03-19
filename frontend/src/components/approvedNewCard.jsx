@@ -3,7 +3,7 @@ import axios from "axios";
 import "./acceptcard.css";
 import { useNavigate } from "react-router-dom";
 
-const AcceptCard = ({ id, description, article, status, onStatusUpdate }) => {
+const AcceptCard = ({ id, description, article, status, onStatusUpdate , thumbnail }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const navigate = useNavigate();
@@ -41,6 +41,7 @@ const AcceptCard = ({ id, description, article, status, onStatusUpdate }) => {
   return (
     <div className="accept-card" onClick={() => navigate(`/ViewNews/${id}`)}>
       <div className="accept-content">
+        <img src={thumbnail} alt="thumbnail" />
         <div className="id">{id}</div>
         <div className="description">{description}</div>
         <div className="article">{article}</div>

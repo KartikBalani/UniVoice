@@ -13,6 +13,13 @@
     justify-content: space-between; /* Push button to the bottom */
 }
 
+.reject-card img{
+    width: 100%;
+    height: 200px; /* Increased image height for dominance */
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
+
 /* Content takes up remaining space */
 .reject-content {
     flex-grow: 1;
