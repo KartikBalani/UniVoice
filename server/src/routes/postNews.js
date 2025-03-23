@@ -48,6 +48,7 @@ router.post("/", upload.fields([{ name: "thumbnail" }, { name: "images" }]), asy
     try {
         const description = req.body.Description;
         const article = req.body.article;
+        const roll = req.body.userRoll;
         const categories = JSON.parse(req.body.categories || "[]").map((tag) => ({
             Tags: tag,
         }));
@@ -83,7 +84,7 @@ router.post("/", upload.fields([{ name: "thumbnail" }, { name: "images" }]), asy
             Thumbnail: thumbnailUrl,
             images: imageUrls,
             Date: Date.now(),
-            EditorId: "2023BCY0036",
+            EditorId: roll,
         }).catch((err) => {
             console.error("Error while saving data:", err);
         });

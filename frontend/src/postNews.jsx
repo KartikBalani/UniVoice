@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./postNews.css";
 import axios from "axios";
+import Navbar from "./components/navbar"; 
+import { useUser } from "./context/UserContext"; // Import the context hook
 
 const PostNews = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [categories, setCategories] = useState([]);
+  const {userRoll} = useUser(); // Get the userID from the context
 
   const handleCategories = (value) => {
     setCategories((prevCategories) =>
@@ -19,6 +22,7 @@ const PostNews = () => {
     const formData = new FormData(); // Using FormData for file uploads
 
     // Append text fields
+    formData.append("userRoll", userRoll); // Add the userID to the form data
     formData.append("Description", data.Description);
     formData.append("article", data.article);
 

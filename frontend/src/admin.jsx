@@ -1,6 +1,7 @@
 import "react";
 import Navbar from "./components/navbar";
 import "./admin.css";
+import { useUser } from "./context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,12 +10,13 @@ import RejectCard from "./components/rejectedNewsCard";
 import PendingCard from "./components/pendingNewsCard"; // Don't forget this import!
 
 const Admin = () => {
+
+  const { userType } = useUser();
   const [status, setStatus] = useState("pending");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-
-
   // Add this function in Admin.jsx
+
   const updateLocalStatus = (id, newStatus) => {
     setData((prevData) =>
       prevData.map((item) =>
@@ -79,7 +81,7 @@ const Admin = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar userType={userType}/>
       <div className="containerAdmin">
         <div className="accepted">
           <button onClick={() => setStatus("accepted")}>Accepted</button>

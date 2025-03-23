@@ -1,26 +1,30 @@
-import './App.css'
-import Loginpage2 from './loginpage2'
-import Home from './home'
-import {BrowserRouter , Routes , Route} from 'react-router-dom'
-import Admin from './admin'
-import PostNews from './postNews'
-import ViewNews from './viewNews'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './home';
+import LoginPage2 from './loginpage2';
+import Admin from './admin';
+import PostNews from './postNews';
+import ViewNews from './viewNews';
+import { UserProvider } from './context/UserContext';
 
 function App() {
-
   return (
-
-         <BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
           <Routes>
-           <Route path='/login' element={<Loginpage2/>}></Route>
+           <Route path='/login' element={<LoginPage2/>}></Route>
            <Route path='/' element={<Home/>}></Route>
            <Route path='/admin' element={<Admin/>}></Route>
            <Route path='/post' element={<PostNews/>}></Route>
            <Route path='/viewNews/:slug' element={<ViewNews/>}></Route>
           </Routes>
          </BrowserRouter>
-
-  )
+    </UserProvider>
+  );
 }
 
-export default App
+export default App;
+
+
+
+    

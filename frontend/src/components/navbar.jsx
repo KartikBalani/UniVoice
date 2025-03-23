@@ -4,8 +4,9 @@ import './navbar.css';
 import Dropdown from './Dropdown';
 import ResourcesDropdown from './ResourcesDropdown';
 import { useNavigate } from 'react-router-dom';
+import { use } from 'react';
 
-const Navbar = ({ setCategory }) => {
+const Navbar = ({ setCategory , userType ,setUserType}) => {
   const navigate = useNavigate();
 
   return (
@@ -27,23 +28,24 @@ const Navbar = ({ setCategory }) => {
           <li>
             <ResourcesDropdown setCategory={setCategory} />
           </li>
-          <li>
+          {userType === "Admin" ?(<li>
             <button className="admin" onClick={() => navigate('/admin')}>
               Admin
             </button>
-          </li>
-          <li>
+          </li>):null}
+          
+          {userType==="User" || userType==="Admin" ? (<li>
             <button className="postNews" onClick={() => navigate('/post')}>
               Post
             </button>
-          </li>
+          </li>):null}
           <li>
             <button className="contact-Us" onClick={() => navigate('/contact')}>
               Contact Us
             </button>
           </li>
           <li>
-            <Dropdown />
+            <Dropdown setUserType={setUserType} />
           </li>
         </ul>
       </nav>
