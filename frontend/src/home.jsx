@@ -10,7 +10,7 @@ const Home = () => {
   const [cardData, setCardData] = useState([]);
   const [category, setCategory] = useState(null);
   const [currImage, setcurrImage] = useState(0);
-  const { userType, setUserType } = useUser(); 
+  const { userType, setUserType,access,setAccess } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {

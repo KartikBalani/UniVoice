@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cookieParser from 'cookie-parser'
 import mongoose from "mongoose";
 import login from "./routes/login.js";
 import News from "./routes/News.js";
@@ -16,9 +17,14 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // ✅ Ensure frontend URL matches exactly
+  credentials: true,  // ✅ Allows cookies to be sent
+  // methods: ['GET', 'POST', 'PUT', 'DELETE'], // Optional: Ensure all methods are allowed
+  // allowedHeaders: ['Content-Type', 'Authorization'], // Optional: Explicitly allow headers
+}));
 app.use(express.json());
-
+app.use(cookieParser())
 dotenv.config();
 const murl = process.env.Mongo_URI;
 

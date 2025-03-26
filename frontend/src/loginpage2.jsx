@@ -13,16 +13,19 @@ const LoginPage2 = () => {
         formState: { errors, isSubmitting },
     } = useForm();
     
-    const { setUserType,setUserRoll } = useUser();
+    const { setUserType,setUserRoll,setAccess } = useUser();
     
     const onSubmit = (data) => {
-        axios
-            .post('http://localhost:3000/login', data)
+        axios.post('http://localhost:3000/login', data, {
+            withCredentials: true  // ✅ This ensures cookies are sent and stored
+        })
             .then((result) => {
                 console.log(result.data);
                 // Save the user type from the response
                 setUserType(result.data.userType);
                 setUserRoll(result.data.roll);
+                setAccess(result.data.token);
+                //console.log(result.data.token);
                 navigate('/');
             })
             .catch((err) => alert(err.response.data));

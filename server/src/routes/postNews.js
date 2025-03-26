@@ -3,6 +3,7 @@ import multer from "multer";
 import {v2 as cloudinary} from "cloudinary";
 import dotenv from "dotenv";
 import NewsData from "../models/News.js";
+import authenticateToken from "../middlewares/authUser.js";
 
 dotenv.config();
 
@@ -44,7 +45,7 @@ async function uploadFiles(fileBuffer,type) {
 };
 
 // Handle form submission with file uploads
-router.post("/", upload.fields([{ name: "thumbnail" }, { name: "images" }]), async (req, res) => {
+router.post("/", upload.fields([{ name: "thumbnail" }, { name: "images" }]),authenticateToken, async (req, res) => {
     try {
         const description = req.body.Description;
         const article = req.body.article;

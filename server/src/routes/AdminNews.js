@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import NewsData from "../models/News.js";
+import authenticateToken from '../middlewares/authAdmin.js';
 
-router.get('/', async (req, res) => {
+router.get('/',authenticateToken, async (req, res) => {
   const status = req.query.status;
   console.log("Requested status:", status);
 

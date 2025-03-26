@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./postNews.css";
+import { UserProvider } from "./context/UserContext";
 import axios from "axios";
 import Navbar from "./components/navbar"; 
 import { useUser } from "./context/UserContext"; // Import the context hook
@@ -8,7 +9,9 @@ import { useUser } from "./context/UserContext"; // Import the context hook
 const PostNews = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [categories, setCategories] = useState([]);
-  const {userRoll} = useUser(); // Get the userID from the context
+  // Get the userID from the context
+  const {userType, setUserType, userRoll, setUserRoll, access,setAccess} = useUser();
+
 
   const handleCategories = (value) => {
     setCategories((prevCategories) =>
@@ -43,14 +46,16 @@ const PostNews = () => {
 
     try {
       await axios.post("http://localhost:3000/postNews", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+          headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${access}` // ✅ Correct placement
+          }
       });
       alert("Form submitted successfully!");
     } catch (error) {
       console.error("Form submission failed:", error);
       alert("Form not submitted!");
+    
     }
   };
 
