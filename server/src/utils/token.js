@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+// require('dotenv').config();
+import 'dotenv/config';
 //import express from 'express';
 //import router from './login';
 //import jwt from 'jsonwebtoken';
@@ -6,8 +8,8 @@ import jwt from 'jsonwebtoken';
 //import router from './login.js';
 
 // Use environment variables in production!
-const ACCESS_TOKEN_SECRET = "jhgdfhjahffhafh"
-const REFRESH_TOKEN_SECRET = 'your-refresh-secret-key';
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_KEY;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_KEY;
 
 // Generate Access Token (Short-lived, e.g., 15m)
 export const generateAccessToken = (user) => {
@@ -28,7 +30,7 @@ export const generateRefreshToken = (user) => {
       type: user.type
     },
     REFRESH_TOKEN_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: '120m' }
   );
 };
 

@@ -33,9 +33,9 @@ router.post('/', async (req, res) => {
       const refreshToken = generateRefreshToken(user);
       
       // Generate access token
-      const accessToken = generateAccessToken(user);
+      // const accessToken = generateAccessToken(user);
       //console.log("login:",refreshToken);
-      console.log("login",accessToken);
+      // console.log("login",accessToken);
       console.log("loginrefresh:",refreshToken);
 
       
@@ -51,7 +51,6 @@ router.post('/', async (req, res) => {
       return res.json({ 
         userType: user.type, 
         roll: user.Roll,
-        token:accessToken 
       });
     } else {
       console.log("❌ Invalid credentials");

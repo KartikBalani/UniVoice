@@ -11,6 +11,7 @@ import PostNews from "./routes/postNews.js";
 import AdminStatusUpdate from "./routes/AdminStatusUpdate.js"; // ✅ NEW IMPORT
 import dotenv from "dotenv";
 import ViewNews from "./routes/viewNews.js";
+import logout from "./routes/logout.js"
 
 const app = express();
 const port = 3000;
@@ -36,6 +37,8 @@ async function main() {
 }
 
 // ✅ ROUTES
+
+app.use("/logout",logout);
 app.use("/login", login);
 app.use("/", News);
 app.use("/admin", AdminNews);

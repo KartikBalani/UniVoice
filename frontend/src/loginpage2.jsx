@@ -13,7 +13,7 @@ const LoginPage2 = () => {
         formState: { errors, isSubmitting },
     } = useForm();
     
-    const { setUserType,setUserRoll,setAccess } = useUser();
+    const { setUserType,setUserRoll } = useUser();
     
     const onSubmit = (data) => {
         axios.post('http://localhost:3000/login', data, {
@@ -24,7 +24,6 @@ const LoginPage2 = () => {
                 // Save the user type from the response
                 setUserType(result.data.userType);
                 setUserRoll(result.data.roll);
-                setAccess(result.data.token);
                 //console.log(result.data.token);
                 navigate('/');
             })
