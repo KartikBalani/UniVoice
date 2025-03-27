@@ -1,0 +1,37 @@
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+
+const authenticateToken = async (req, res, next) => {
+  try {
+    const refreshToken = req.cookies?.refresh_token;
+    
+    if (!refreshToken) {
+      req.user = {
+        roll: null,
+        type: "user"
+      };
+      return next();
+    }
+
+    const refreshKey = process.env.REFRESH_KEY;
+    
+    let decodedRefreshToken;
+    try {
+      decodedRefreshToken = jwt.verify(refreshToken, refreshKey);
+    } catch (refreshError) {
+      return res.status(403).json({ message: "Invalid refresh token" });
+    }
+
+    req.user = {
+      roll: decodedRefreshToken.roll,
+      type: decodedRefreshToken.type
+    };
+    
+    next();
+  } catch (error) {
+    console.error('Authentication middleware error:', error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export default authenticateToken;

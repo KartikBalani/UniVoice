@@ -8,7 +8,9 @@ import { useUser } from "./context/UserContext"; // Import the context hook
 const PostNews = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [categories, setCategories] = useState([]);
-  const {userRoll} = useUser(); // Get the userID from the context
+  // Get the userID from the context
+  const {userType, setUserType, userRoll, setUserRoll} = useUser();
+
 
   const handleCategories = (value) => {
     setCategories((prevCategories) =>
@@ -43,14 +45,16 @@ const PostNews = () => {
 
     try {
       await axios.post("http://localhost:3000/postNews", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+          headers: {
+              "Content-Type": "multipart/form-data"
+          }
+          ,withCredentials: true 
       });
       alert("Form submitted successfully!");
     } catch (error) {
       console.error("Form submission failed:", error);
       alert("Form not submitted!");
+    
     }
   };
 

@@ -10,7 +10,7 @@ const Home = () => {
   const [cardData, setCardData] = useState([]);
   const [category, setCategory] = useState(null);
   const [currImage, setcurrImage] = useState(0);
-  const { userType, setUserType } = useUser(); 
+  const { userType, setUserType,setUserRoll } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,10 +19,13 @@ const Home = () => {
         params: {
           category,
         },
+        withCredentials: true 
       })
       .then((result) => {
         console.log(result.data);
-        setCardData(result.data);
+        setCardData(result.data.newsData);
+        setUserRoll(result.data.User.roll)
+        setUserType(result.data.User.type)
       })
       .catch((err) => {
         alert("error fetching data");

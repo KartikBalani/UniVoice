@@ -16,13 +16,15 @@ const LoginPage2 = () => {
     const { setUserType,setUserRoll } = useUser();
     
     const onSubmit = (data) => {
-        axios
-            .post('http://localhost:3000/login', data)
+        axios.post('http://localhost:3000/login', data, {
+            withCredentials: true  // ✅ This ensures cookies are sent and stored
+        })
             .then((result) => {
                 console.log(result.data);
                 // Save the user type from the response
                 setUserType(result.data.userType);
                 setUserRoll(result.data.roll);
+                //console.log(result.data.token);
                 navigate('/');
             })
             .catch((err) => alert(err.response.data));

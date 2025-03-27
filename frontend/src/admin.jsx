@@ -11,11 +11,11 @@ import PendingCard from "./components/pendingNewsCard"; // Don't forget this imp
 
 const Admin = () => {
 
-  const { userType } = useUser();
+  const { userType,access } = useUser();
   const [status, setStatus] = useState("pending");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  // Add this function in Admin.jsx
+  // Add this function in Admin.jsx1
 
   const updateLocalStatus = (id, newStatus) => {
     setData((prevData) =>
@@ -69,15 +69,22 @@ const Admin = () => {
   // 👉 Fetch data based on current selected status
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin", { params: { status } })
+      .get("http://localhost:3000/admin", { 
+        params: { status }, 
+        headers: { 
+          Authorization: `Bearer ${access}` 
+        },
+        withCredentials: true  // This is the correct way to send cookies
+      })
       .then((result) => {
         console.log("Fetched data:", result.data);
         setData(result.data);
       })
-      .catch(() => {
-        alert("Could not fetch data!");
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        alert("Could not fetch data or access denied");
       });
-  }, [status]);
+  }, [status, access]);
 
   return (
     <>
