@@ -2,8 +2,7 @@ import React from 'react';
 import './card.css';
 import { useNavigate } from 'react-router-dom';
 
-const card = ({ thumbnail, description, article, Date, EditorId ,id}) => {
-
+const Card = ({ thumbnail, description, Date, EditorId, id, status, showStatus = false }) => {
   const navigate = useNavigate();
 
   return (
@@ -12,12 +11,13 @@ const card = ({ thumbnail, description, article, Date, EditorId ,id}) => {
       <hr />
       <h2>{description}</h2>
       <div className="info">
-        <p>Article By: {EditorId}</p>
+        {!showStatus && <p>Article By: {EditorId}</p>}
         <p>Submitted on: {Date}</p>
-        <p>{id}</p>
+        {/* ✅ Corrected status display */}
+        {showStatus ? <p>Status: {status || "N/A"}</p> : <p>ID: {id}</p>}
       </div>
     </div>
   );
 };
 
-export default card;
+export default Card;

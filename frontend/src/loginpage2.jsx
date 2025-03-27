@@ -7,22 +7,19 @@ import { useUser } from './context/UserContext';
 
 const LoginPage2 = () => {
     const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     
-    const { setUserType,setUserRoll } = useUser();
-    
+    const { updateUser } = useUser();  // Use updateUser function
+
     const onSubmit = (data) => {
         axios
             .post('http://localhost:3000/login', data)
             .then((result) => {
-                console.log(result.data);
-                // Save the user type from the response
-                setUserType(result.data.userType);
-                setUserRoll(result.data.roll);
+                console.log("✅ Login Response:", result.data);
+                
+                // Use updateUser() to set state and localStorage
+                updateUser(result.data.userType, result.data.roll);
+
                 navigate('/');
             })
             .catch((err) => alert(err.response.data));
