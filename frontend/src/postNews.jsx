@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import "./postNews.css";
 import axios from "axios";
 import Navbar from "./components/navbar"; 
 import { useUser } from "./context/UserContext"; // Import the context hook
+import { redirect } from "react-router-dom";
+
+
 
 const PostNews = () => {
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [categories, setCategories] = useState([]);
   // Get the userID from the context
@@ -44,18 +49,29 @@ const PostNews = () => {
     console.log("Submitting form data:", formData);
 
     try {
-      await axios.post("http://localhost:3000/postNews", formData, {
+      const response = await axios.post("http://localhost:3000/postNews", formData, {
           headers: {
               "Content-Type": "multipart/form-data"
-          }
-          ,withCredentials: true 
+          },
+          withCredentials: true
       });
+      
+      console.log(response);
       alert("Form submitted successfully!");
-    } catch (error) {
+      
+  } catch (error) {
       console.error("Form submission failed:", error);
-      alert("Form not submitted!");
-    
-    }
+      // Check error status and navigate to login if needed
+      if (error.response && (error.response.status === 401 || 
+                             error.response.status === 403 || 
+                             error.response.status === 404)) {
+          alert("Unathorized person please login to post")
+          navigate("/login");
+      }
+      else{
+        alert("Form not submitted!");
+      }
+  }
   };
 
   return (

@@ -19,7 +19,12 @@ const authenticateToken = async (req, res, next) => {
     try {
       decodedRefreshToken = jwt.verify(refreshToken, refreshKey);
     } catch (refreshError) {
-      return res.status(403).json({ message: "Invalid refresh token" });
+      req.user = {
+        roll: null,
+        type: "Guest"
+      };
+      // return res.status(403).json({ message: "Invalid refresh token" });
+      return next();
     }
 
     req.user = {

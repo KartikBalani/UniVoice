@@ -12,17 +12,25 @@ const Dropdown = () => {
   
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:3000/logout', {
-        method: 'POST',
-        credentials: 'include', // Important for cookie handling
+      const response = await fetch("http://localhost:3000/logout", {
+        method: "POST",
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
-    }catch{
-      console.log("logout failed")
+  
+      if (response.ok) {
+        setUserType("Guest"); // Ensure the state updates before navigation
+        navigate("/"); // Navigate after updating state
+      } else {
+        console.log("Logout failed on server");
+      }
+    } catch (error) {
+      console.log("Logout request failed:", error);
     }
-  }
+  };
+  
 
 
   const toggleDropdown = () => {
@@ -67,7 +75,6 @@ const Dropdown = () => {
             <button onClick={() => { 
               handleLogout();
               setIsOpen(false);
-              setUserType("Guest");
             }}>
               Log Out
             </button>

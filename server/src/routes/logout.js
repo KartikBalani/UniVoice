@@ -11,9 +11,6 @@ router.post('/', (req, res) => {
       path: '/' // Important: specify the path
     });
 
-    // Optional: Clear any other authentication-related cookies
-    // res.clearCookie('access_token', {...});
-
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     console.error('Logout error:', error);

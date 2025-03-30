@@ -69,12 +69,12 @@ const Admin = () => {
   // 👉 Fetch data based on current selected status
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin", { 
-        params: { status }, 
-        headers: { 
-          Authorization: `Bearer ${access}` 
+      .get("http://localhost:3000/admin", {
+        params: { status },
+        headers: {
+          Authorization: `Bearer ${access}`
         },
-        withCredentials: true  // This is the correct way to send cookies
+        withCredentials: true
       })
       .then((result) => {
         console.log("Fetched data:", result.data);
@@ -83,9 +83,15 @@ const Admin = () => {
       .catch((error) => {
         console.error("Fetch error:", error);
         alert("Could not fetch data or access denied");
+        
+        // Check if error status is 401, 403, or 404 and navigate to login
+        if (error.response && (error.response.status === 401 || 
+                               error.response.status === 403 || 
+                               error.response.status === 404)) {
+          navigate("/login");
+        }
       });
   }, [status, access]);
-
   return (
     <>
       <Navbar userType={userType}/>
