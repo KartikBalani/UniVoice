@@ -7,14 +7,10 @@ import { useUser } from './context/UserContext';
 
 const LoginPage2 = () => {
     const navigate = useNavigate();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm();
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     
-    const { setUserType,setUserRoll } = useUser();
-    
+    const { setUserType,setUserRoll } = useUser();  // Use updateUser function
+
     const onSubmit = (data) => {
         axios.post('http://localhost:3000/login', data, {
             withCredentials: true  // ✅ This ensures cookies are sent and stored

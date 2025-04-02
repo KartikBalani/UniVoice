@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./acceptcard.css";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // Import User Context
 
-const AcceptCard = ({ id, description, article, status, onStatusUpdate , thumbnail }) => {
+const AcceptCard = ({ id, description, article, status, onStatusUpdate, thumbnail }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const navigate = useNavigate();
-
+  const { userRoll } = useUser(); // Get user context
 
   const handleRejectClick = (e) => {
     e.stopPropagation();
-    setShowPopup(true); // Show the rejection reason popup
+    setShowPopup(true);
   };
 
   const submitRejection = async () => {
@@ -23,17 +24,17 @@ const AcceptCard = ({ id, description, article, status, onStatusUpdate , thumbna
     try {
       const res = await axios.patch(`http://localhost:3000/admin/update-status/${id}`, {
         status: "rejected",
-        rejectedBy: "Admin", // Replace with actual admin username
+        changedBy: userRoll || "Unknown Admin", // Use correct roll number
         rejectionReason,
       });
 
       if (onStatusUpdate) onStatusUpdate(id, "rejected");
-      console.log("Updated:", res.data);
+      console.log("✅ Status Updated:", res.data);
 
       setShowPopup(false);
-      setRejectionReason(""); // Reset the reason field
+      setRejectionReason("");
     } catch (err) {
-      console.error("Update error:", err.response?.data || err.message);
+      console.error("❌ Update error:", err.response?.data || err.message);
       alert("Failed to update status");
     }
   };

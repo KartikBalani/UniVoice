@@ -2,15 +2,17 @@ import { useState } from "react";
 import "./pendingcard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // Import User Context
 
-const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnail }) => {
+const PendingCard = ({ id, description, article, status, onStatusUpdate, thumbnail }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const navigate = useNavigate();
+  const { userRoll } = useUser(); // Get user context
 
   const handleRejectClick = (e) => {
     e.stopPropagation();
-    setShowPopup(true); // Show the rejection popup
+    setShowPopup(true);
   };
 
   const submitRejection = async () => {
@@ -22,7 +24,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnai
     try {
       const res = await axios.patch(`http://localhost:3000/admin/update-status/${id}`, {
         status: "rejected",
-        rejectedBy: "Admin", // Replace with actual admin username
+        changedBy: userRoll || "Unknown Admin", // Use correct roll number
         rejectionReason,
       });
 
@@ -30,7 +32,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnai
       console.log("Updated:", res.data);
 
       setShowPopup(false);
-      setRejectionReason(""); // Reset the reason field
+      setRejectionReason("");
     } catch (err) {
       console.error("Update error:", err.response?.data || err.message);
       alert("Failed to update status");
@@ -42,6 +44,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnai
     try {
       const res = await axios.patch(`http://localhost:3000/admin/update-status/${id}`, {
         status: "accepted",
+        changedBy: user?.rollNumber || "Unknown Admin", // Track who accepted the article
       });
 
       if (onStatusUpdate) onStatusUpdate(id, "accepted");
@@ -54,7 +57,6 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate,thumbnai
 
   return (
     <>
-      {/* Card Component */}
       <div className="pending-card" onClick={() => navigate(`/ViewNews/${id}`)}>
         <img src={thumbnail} alt="thumbnail" />
         <div className="description">{description}</div>

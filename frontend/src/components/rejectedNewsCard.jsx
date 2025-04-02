@@ -1,10 +1,13 @@
 import "./rejectcard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext"; // Import User Context
 
-const RejectCard = ({ id, description, article, status, onStatusUpdate , thumbnail }) => {
-
+const RejectCard = ({ id, description, article, status, onStatusUpdate, thumbnail }) => {
   const navigate = useNavigate();
+  const { userRoll } = useUser(); // Get user context
+
+
   const handleAccept = async (e) => {
     e.stopPropagation();
     try {
@@ -13,13 +16,16 @@ const RejectCard = ({ id, description, article, status, onStatusUpdate , thumbna
 
       const res = await axios.patch(
         `http://localhost:3000/admin/update-status/${id}`,
-        { status: updatedStatus }
+        {
+          status: updatedStatus,
+          changedBy: userRoll || "Unknown Admin", // Use correct roll number
+        }
       );
 
       if (onStatusUpdate) onStatusUpdate(id, updatedStatus);
-      console.log("Updated:", res.data);
+      console.log("✅ Updated:", res.data);
     } catch (err) {
-      console.error("Update error:", err.response?.data || err.message);
+      console.error("❌ Update error:", err.response?.data || err.message);
       alert("Failed to update status. Please try again.");
     }
   };

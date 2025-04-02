@@ -19,12 +19,18 @@ const NewsSchema = new mongoose.Schema({
     Status: { type: String, enum: ["accepted", "rejected", "pending"], default: "pending" },
 });
 
+NewsSchema.pre("findOneAndUpdate", function (next) {
+    console.log("🔄 Mongoose: Updating News with ID:", this.getQuery());
+    console.log("📝 Update Data:", this.getUpdate());
+    next();
+});
+
 const NewsStatusLogSchema = new mongoose.Schema({
     newsId: { type: mongoose.Schema.Types.ObjectId, ref: "NewsData", required: true },
-    changedBy: { type: String, required: true, default: "admin" }, // Stores admin ID or defaults to "admin"
-    reason: { type: String, default: "" }, // Optional reason for accepted articles
+    changedBy: { type: String, required: true, default: "admin" },
+    reason: { type: String, default: "" },
     changedAt: { type: Date, default: Date.now },
-    status: { type: String, enum: ["accepted", "rejected"], required: true }, // Stores whether it was accepted or rejected
+    status: { type: String, enum: ["accepted", "rejected"], required: true },
 });
 
 const NewsData = mongoose.model("NewsData", NewsSchema);

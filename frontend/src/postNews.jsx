@@ -75,46 +75,49 @@ const PostNews = () => {
   };
 
   return (
-    <div className="postNews-Container">
-      <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>
-        Submit News Article
-      </h2>
+    <>
+      <Navbar userType={userType}/>
+      <div className="postNews-Container">
+        <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>
+          Submit News Article
+        </h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-        <input type="text" {...register("Description", { required: true })} placeholder="Enter a Description" />
-        {errors.Description && <p>Description is mandatory</p>}
+        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+          <input type="text" {...register("Description", { required: true })} placeholder="Enter a Description" />
+          {errors.Description && <p>Description is mandatory</p>}
 
-        <input type="file" {...register("thumbnail", { required: true })} />
-        {errors.thumbnail && <p>Enter a Thumbnail</p>}
+          <input type="file" {...register("thumbnail", { required: true })} />
+          {errors.thumbnail && <p>Enter a Thumbnail</p>}
 
-        <textarea {...register("article", { required: true, minLength: 50 })} placeholder="Enter the article here"></textarea>
-        {errors.article && <p>Article length should be at least 50 characters</p>}
+          <textarea {...register("article", { required: true, minLength: 50 })} placeholder="Enter the article here"></textarea>
+          {errors.article && <p>Article length should be at least 50 characters</p>}
 
-        <input type="file" {...register("images")} multiple />
-        {errors.images && <p>Enter images</p>}
+          <input type="file" {...register("images")} multiple />
+          {errors.images && <p>Enter images</p>}
 
-        {/* Categories - State-based Selection */}
-        <div className="categories">
-          <h5>Select Categories (one or more)</h5>
-          {["club", "college", "alumni", "success", "events"].map((category) => (
-            <label key={category}>
-              <input
-                type="checkbox"
-                checked={categories.includes(category)} // ✅ Simplified condition
-                onChange={() => handleCategories(category)}
-              />
-              {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize first letter */}
-            </label>
-          ))}
-        </div>
+          {/* Categories - State-based Selection */}
+          <div className="categories">
+            <h5>Select Categories (one or more)</h5>
+            {["club", "college", "alumni", "success", "events"].map((category) => (
+              <label key={category}>
+                <input
+                  type="checkbox"
+                  checked={categories.includes(category)} // ✅ Simplified condition
+                  onChange={() => handleCategories(category)}
+                />
+                {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize first letter */}
+              </label>
+            ))}
+          </div>
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
 
-      {/* Debugging Output */}
-      <h3>Selected Categories:</h3>
-      <pre>{JSON.stringify(categories, null, 2)}</pre>
-    </div>
+        {/* Debugging Output */}
+        <h3>Selected Categories:</h3>
+        <pre>{JSON.stringify(categories, null, 2)}</pre>
+      </div>
+    </>
   );
 };
 

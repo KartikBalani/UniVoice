@@ -33,10 +33,10 @@ const ResourcesDropdown = ({ setCategory }) => {
       <button onClick={toggleDropdown}>Resources</button>
       {isOpen && (
         <div className="dropDown">
-          <button onClick={() => handleCategorySelect("tag1")}>
+          <button onClick={() => handleCategorySelect("club")}>
             Club Events
           </button>
-          <button onClick={() => handleCategorySelect("tag2")}>
+          <button onClick={() => handleCategorySelect("events")}>
             Cultural Events
           </button>
           <button onClick={() => handleCategorySelect("college")}>
