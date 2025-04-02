@@ -45,16 +45,16 @@ const ProfilePage = () => {
                         <div className="news-grid">
                             {news.map((item) => (
                                 <Card
-                                key={item._id}
-                                id={item._id}
-                                thumbnail={item.Thumbnail}
-                                description={item.Description}
-                                Date={new Date(item.Date).toLocaleDateString()}
-                                EditorId={item.EditorId}
-                                status={item.Status} // ✅ Pass status
-                                showStatus={true} // ✅ Show status instead of ID
+                                    key={item._id}
+                                    id={item._id}
+                                    thumbnail={item.Thumbnail}
+                                    description={item.Description}
+                                    Date={new Date(item.Date).toLocaleDateString()}
+                                    EditorId={item.EditorId}
+                                    status={item.Status} // ✅ Pass status
+                                    rejectionReason={item.Status === "rejected" ? item.latestStatus?.reason : null} // ✅ Pass reason if rejected
+                                    showStatus={true} // ✅ Show status inside the card
                                 />
-                            
                             ))}
                         </div>
                     ) : (
