@@ -8,7 +8,7 @@ const authenticateToken = async (req, res, next) => {
     if (!refreshToken) {
       req.user = {
         roll: null,
-        type: "user"
+        type: "Guest"
       };
       return next();
     }
