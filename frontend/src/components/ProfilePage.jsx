@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import Card from "../components/card"; // Import the Card component
 import "./profile.css";
+import Navbar from "./navbar"; // Import Navbar
 
 const ProfilePage = () => {
     const navigate = useNavigate();
@@ -32,41 +33,44 @@ const ProfilePage = () => {
     }, [userRoll, userType]);
 
     return (
-        <div className="profile-container">
-            <h2>👤 Profile</h2>
-            <p><strong>Roll Number:</strong> {userRoll || "N/A"}</p>
-            <p><strong>User Type:</strong> {userType}</p>
+        <>
+            <Navbar userType={userType}/> {/* Ensure Navbar is displayed */}
+            <div className="profile-container">
+                <h2>👤 Profile</h2>
+                <p><strong>Roll Number:</strong> {userRoll || "N/A"}</p>
+                <p><strong>User Type:</strong> {userType}</p>
 
-            {/* Show posted news only if the user is NOT an admin */}
-            {userType !== "admin" && (
-                <>
-                    <h3>📰 Your Posted News</h3>
-                    {news.length > 0 ? (
-                        <div className="news-grid">
-                            {news.map((item) => (
-                                <Card
-                                    key={item._id}
-                                    id={item._id}
-                                    thumbnail={item.Thumbnail}
-                                    description={item.Description}
-                                    Date={new Date(item.Date).toLocaleDateString()}
-                                    EditorId={item.EditorId}
-                                    status={item.Status} // ✅ Pass status
-                                    rejectionReason={item.Status === "rejected" ? item.latestStatus?.reason : null} // ✅ Pass reason if rejected
-                                    showStatus={true} // ✅ Show status inside the card
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <p>No news posted yet.</p>
-                    )}
-                </>
-            )}
+                {/* Show posted news only if the user is NOT an admin */}
+                {userType !== "admin" && (
+                    <>
+                        <h3>📰 Your Posted News</h3>
+                        {news.length > 0 ? (
+                            <div className="news-grid">
+                                {news.map((item) => (
+                                    <Card
+                                        key={item._id}
+                                        id={item._id}
+                                        thumbnail={item.Thumbnail}
+                                        description={item.Description}
+                                        Date={new Date(item.Date).toLocaleDateString()}
+                                        EditorId={item.EditorId}
+                                        status={item.Status} // ✅ Pass status
+                                        rejectionReason={item.Status === "rejected" ? item.latestStatus?.reason : null} // ✅ Pass reason if rejected
+                                        showStatus={true} // ✅ Show status inside the card
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <p>No news posted yet.</p>
+                        )}
+                    </>
+                )}
 
-            <button className="back-button" onClick={() => navigate("/")}>
-                Go Back
-            </button>
-        </div>
+                <button className="back-button" onClick={() => navigate("/")}>
+                    Go Back
+                </button>
+            </div>
+        </>
     );
 };
 
