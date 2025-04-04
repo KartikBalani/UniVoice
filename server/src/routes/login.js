@@ -11,7 +11,6 @@ router.post('/', async (req, res) => {
   const { Roll, password, type } = req.body;
   
   try {
-    // Find user by Roll Number
     const user = await UserData.findOne({ Roll: Roll.toUpperCase() });
     
     if (!user) {
@@ -19,16 +18,16 @@ router.post('/', async (req, res) => {
       return res.status(404).send('User not found');
     }
     
-    // Clean the stored hash (remove any trailing newlines)
+    
     const cleanedHash = user.password.trim();
     
-    // Compare entered password with cleaned stored hash
+    
     const isMatch = await argon2.verify(cleanedHash, password);
     
     if (isMatch && type === user.type) {
       console.log("✅ Access granted");
       
-      // Generate refresh token
+     
       const refreshToken = generateRefreshToken(user);
       
   
@@ -40,7 +39,7 @@ router.post('/', async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'Strict',
-        maxAge:  2 * 60 * 60 * 1000 // 2 hours
+        maxAge:  2 * 60 * 60 * 1000 
       });
       
       

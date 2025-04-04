@@ -95,39 +95,75 @@ const Admin = () => {
   return (
     <>
       <Navbar userType={userType}/>
-      <div className="containerAdmin">
-        <div className="accepted">
-          <button onClick={() => setStatus("accepted")}>Accepted</button>
-          <h1>Accepted Articles</h1>
+      <div className="admin-container">
+        <div className="admin-header">
+          <h1>News Article Management</h1>
+          <p>Manage and review article submissions</p>
         </div>
-        <div className="rejected">
-          <button onClick={() => setStatus("rejected")}>Rejected</button>
-          <h1>Rejected Articles</h1>
+        
+        <div className="status-tabs">
+          <button 
+            className={`status-tab ${status === "accepted" ? "active" : ""}`}
+            onClick={() => setStatus("accepted")}
+          >
+            <span className="status-icon">✓</span>
+            <div className="status-info">
+              <h2>Accepted</h2>
+              <p>Approved articles</p>
+            </div>
+          </button>
+          
+          <button 
+            className={`status-tab ${status === "pending" ? "active" : ""}`}
+            onClick={() => setStatus("pending")}
+          >
+            <span className="status-icon">⌛</span>
+            <div className="status-info">
+              <h2>Pending</h2>
+              <p>Articles awaiting review</p>
+            </div>
+          </button>
+          
+          <button 
+            className={`status-tab ${status === "rejected" ? "active" : ""}`}
+            onClick={() => setStatus("rejected")}
+          >
+            <span className="status-icon">✕</span>
+            <div className="status-info">
+              <h2>Rejected</h2>
+              <p>Declined articles</p>
+            </div>
+          </button>
         </div>
-        <div className="pending">
-          <button onClick={() => setStatus("pending")}>Pending</button>
-          <h1>Pending Articles</h1>
-        </div>
-      </div>
 
-      <hr />
+        <div className="content-section">
+          <div className="section-header">
+            <h2>{status.charAt(0).toUpperCase() + status.slice(1)} Articles</h2>
+            <div className="article-count">{data.length} articles</div>
+          </div>
 
-      <div className="cards">
-        {data && data.length > 0 ? (
-          data.map((item) => (
-            <SelectCard
-              key={item._id}
-              id={item._id}
-              description={item.Description}
-              article={item.article}
-              status={item.Status}
-              thumbnail={item.Thumbnail}
-              onStatusUpdate={updateLocalStatus}
-            />
-          ))
-        ) : (
-          <p>Loading or No Articles Found</p>
-        )}
+          <div className="cards-grid">
+            {data && data.length > 0 ? (
+              data.map((item) => (
+                <SelectCard
+                  key={item._id}
+                  id={item._id}
+                  description={item.Description}
+                  article={item.article}
+                  status={item.Status}
+                  thumbnail={item.Thumbnail}
+                  onStatusUpdate={updateLocalStatus}
+                />
+              ))
+            ) : (
+              <div className="no-articles">
+                <span className="empty-icon">📝</span>
+                <h3>No Articles Found</h3>
+                <p>There are no articles in this category at the moment.</p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );

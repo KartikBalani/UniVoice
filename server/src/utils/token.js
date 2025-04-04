@@ -11,7 +11,6 @@ import 'dotenv/config';
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_KEY;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_KEY;
 
-// Generate Access Token (Short-lived, e.g., 15m)
 export const generateAccessToken = (user) => {
   return jwt.sign(
     {

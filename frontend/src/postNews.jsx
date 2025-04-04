@@ -112,10 +112,6 @@ const PostNews = () => {
 
           <button type="submit">Submit</button>
         </form>
-
-        {/* Debugging Output */}
-        <h3>Selected Categories:</h3>
-        <pre>{JSON.stringify(categories, null, 2)}</pre>
       </div>
     </>
   );
