@@ -3,7 +3,6 @@ import UserData from "../models/User.js";
 import argon2 from "argon2";
 import {
   generateRefreshToken,
-  generateAccessToken
 } from "../utils/token.js";
 
 const router = express.Router();
@@ -32,21 +31,18 @@ router.post('/', async (req, res) => {
       // Generate refresh token
       const refreshToken = generateRefreshToken(user);
       
-      // Generate access token
-      // const accessToken = generateAccessToken(user);
-      //console.log("login:",refreshToken);
-      // console.log("login",accessToken);
+  
       console.log("loginrefresh:",refreshToken);
 
       
       
-      // // Set refresh token as HTTP-only cookie
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        secure: true,
+        sameSite: 'Strict',
+        maxAge:  2 * 60 * 60 * 1000 // 2 hours
       });
+      
       
       return res.json({ 
         userType: user.type, 

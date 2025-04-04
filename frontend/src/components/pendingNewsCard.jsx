@@ -44,7 +44,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate, thumbna
     try {
       const res = await axios.patch(`http://localhost:3000/admin/update-status/${id}`, {
         status: "accepted",
-        changedBy: user?.rollNumber || "Unknown Admin", // Track who accepted the article
+        changedBy: userRoll || "Unknown Admin", // Track who accepted the article
       });
 
       if (onStatusUpdate) onStatusUpdate(id, "accepted");

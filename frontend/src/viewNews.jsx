@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/navbar";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useUser } from "./context/UserContext";
 import "./viewNews.css";
 
 const ViewNews = () => {
+  const {userType} = useUser();
   const { slug } = useParams();
   const [newsdata, setNewsData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ const ViewNews = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar userType={userType}/>
       <div className="container">
         <img className="thumbnail" src={newsdata.Thumbnail} alt="News image" />
         <h1>{newsdata.Description}</h1>
