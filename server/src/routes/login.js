@@ -30,11 +30,6 @@ router.post('/', async (req, res) => {
      
       const refreshToken = generateRefreshToken(user);
       
-  
-      console.log("loginrefresh:",refreshToken);
-
-      
-      
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
         secure: true,
