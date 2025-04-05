@@ -112,7 +112,7 @@ router.post(
         Article: article,
         Category: parsedCategories,
         Thumbnail: thumbnailUrl,
-        images: imageUrls,
+        Images: imageUrls.map((url) => ({ url })),
         Date: Date.now(),
         EditorId: userRoll,
       });

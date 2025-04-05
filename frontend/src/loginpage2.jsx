@@ -70,6 +70,9 @@ const LoginPage2 = () => {
                             </select>
                         </div>
                         {errors.type && <span className="error-message">Please select a user type</span>}
+                        <div className="guest">
+                            <button onClick={() => navigate('/')}>Continue As Guest</button>
+                        </div>
                     </div>
                     
                     <button type="submit" disabled={isSubmitting} className="submit-button">
