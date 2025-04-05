@@ -94,7 +94,7 @@ const Admin = () => {
   }, [status, access]);
   return (
     <>
-      <Navbar userType={userType}/>
+      <Navbar/>
       <div className="admin-container">
         <div className="admin-header">
           <h1>News Article Management</h1>

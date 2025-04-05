@@ -34,7 +34,7 @@ const ProfilePage = () => {
 
     return (
         <>
-            <Navbar userType={userType} />
+            <Navbar />
             <div className="profile-container">
                 <div className="profile-card">
                     <section className="profile-info-section">

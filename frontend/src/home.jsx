@@ -45,7 +45,7 @@ const Home = () => {
 
   return (
     <>
-      <Navbar setCategory={setCategory} userType={userType} setUserType={setUserType} />
+      <Navbar setCategory={setCategory}/>
       <div className="image-container">
         {cardData.length > 0 && (
           <>

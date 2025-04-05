@@ -10,7 +10,7 @@ const ContactUs = () => {
   
   return (
     <>
-      <Navbar userType={userType}/> {/* Ensure Navbar is included at the top */}
+      <Navbar/> {/* Ensure Navbar is included at the top */}
       <div className="contact-page">
         <div className="contact-container">
           <div className="contact-header">

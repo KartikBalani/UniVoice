@@ -18,6 +18,8 @@ import PostNews from "./routes/postNews.js";
 import AdminStatusUpdate from "./routes/AdminStatusUpdate.js";
 import ViewNews from "./routes/viewNews.js";
 import logout from "./routes/logout.js";
+//import authenticateToken from "./middlewares/autoLogin.js";
+import navbarUpdate from "./routes/navbarUpdate.js";
 
 dotenv.config();
 
@@ -65,6 +67,7 @@ async function main() {
   console.log("Connected successfully");
 }
 
+app.use("/navbarUpdate",navbarUpdate)
 app.use("/logout", logout);
 app.use("/login", loginLimiter, login); // Login with stricter limiter
 app.use("/", News);

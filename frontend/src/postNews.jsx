@@ -76,7 +76,7 @@ const PostNews = () => {
 
   return (
     <>
-      <Navbar userType={userType}/>
+      <Navbar/>
       <div className="postNews-Container">
         <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>
           Submit News Article
