@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import Card from "../components/card"; // Import the Card component
+import Card from "../components/card";
+import Navbar from "./navbar";
 import "./profile.css";
-import Navbar from "./navbar"; // Import Navbar
 
 const ProfilePage = () => {
     const navigate = useNavigate();
-    const { userType, userRoll } = useUser(); // Get user data from context
+    const { userType, userRoll } = useUser();
     const [news, setNews] = useState([]);
 
     useEffect(() => {
-        if (!userRoll || userType === "admin") return; // Admins should not fetch news
+        if (!userRoll || userType === "admin") return;
 
         const fetchNews = async () => {
             try {
@@ -34,41 +34,46 @@ const ProfilePage = () => {
 
     return (
         <>
-            <Navbar userType={userType}/> {/* Ensure Navbar is displayed */}
+            <Navbar />
             <div className="profile-container">
-                <h2>👤 Profile</h2>
-                <p><strong>Roll Number:</strong> {userRoll || "N/A"}</p>
-                <p><strong>User Type:</strong> {userType}</p>
+                <div className="profile-card">
+                    <section className="profile-info-section">
+                        <h2>👤 Profile</h2>
+                        <p><strong>Roll Number:</strong> {userRoll || "N/A"}</p>
+                        <p><strong>User Type:</strong> {userType}</p>
+                    </section>
 
-                {/* Show posted news only if the user is NOT an admin */}
-                {userType !== "admin" && (
-                    <>
-                        <h3>📰 Your Posted News</h3>
-                        {news.length > 0 ? (
-                            <div className="news-grid">
-                                {news.map((item) => (
-                                    <Card
-                                        key={item._id}
-                                        id={item._id}
-                                        thumbnail={item.Thumbnail}
-                                        description={item.Description}
-                                        Date={new Date(item.Date).toLocaleDateString()}
-                                        EditorId={item.EditorId}
-                                        status={item.Status} // ✅ Pass status
-                                        rejectionReason={item.Status === "rejected" ? item.latestStatus?.reason : null} // ✅ Pass reason if rejected
-                                        showStatus={true} // ✅ Show status inside the card
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <p>No news posted yet.</p>
-                        )}
-                    </>
-                )}
+                    {userType !== "admin" && (
+                        <section className="news-section">
+                            <h3>📰 Your Posted News</h3>
+                            {news.length > 0 ? (
+                                <div className="news-grid">
+                                    {news.map((item) => (
+                                        <Card
+                                            key={item._id}
+                                            id={item._id}
+                                            thumbnail={item.Thumbnail}
+                                            description={item.Description}
+                                            Date={new Date(item.Date).toLocaleDateString()}
+                                            EditorId={item.EditorId}
+                                            status={item.Status}
+                                            rejectionReason={
+                                                item.Status === "rejected" ? item.latestStatus?.reason : null
+                                            }
+                                            showStatus={true}
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No news posted yet.</p>
+                            )}
+                        </section>
+                    )}
 
-                <button className="back-button" onClick={() => navigate("/")}>
-                    Go Back
-                </button>
+                    <button className="back-button" onClick={() => navigate("/")}>
+                        Go Back
+                    </button>
+                </div>
             </div>
         </>
     );

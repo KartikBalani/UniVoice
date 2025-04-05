@@ -2,50 +2,81 @@ import express from "express";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import cors from "cors";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+import rateLimit from "express-rate-limit"; // ✅ Rate limiter import
+import mongoSanitize from 'express-mongo-sanitize';
+
+
+
+// Routes
 import login from "./routes/login.js";
 import News from "./routes/News.js";
 import AdminNews from "./routes/AdminNews.js";
 import PostNews from "./routes/postNews.js";
-import AdminStatusUpdate from "./routes/AdminStatusUpdate.js"; // ✅ NEW IMPORT
-import dotenv from "dotenv";
+import AdminStatusUpdate from "./routes/AdminStatusUpdate.js";
 import ViewNews from "./routes/viewNews.js";
-import logout from "./routes/logout.js"
+import logout from "./routes/logout.js";
+//import authenticateToken from "./middlewares/autoLogin.js";
+import navbarUpdate from "./routes/navbarUpdate.js";
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(helmet());
-app.use(cors({
-  origin: 'http://localhost:5173', // ✅ Ensure frontend URL matches exactly
-  credentials: true,  // ✅ Allows cookies to be sent
-  // methods: ['GET', 'POST', 'PUT', 'DELETE'], // Optional: Ensure all methods are allowed
-  // allowedHeaders: ['Content-Type', 'Authorization'], // Optional: Explicitly allow headers
-}));
-app.use(express.json());
-app.use(cookieParser())
-dotenv.config();
 const murl = process.env.Mongo_URI;
 
-main().catch((err) => console.log(err));
 
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: {
+    status: 429,
+    error: "Too many requests, please try again later.",
+  },
+});
+
+app.use(mongoSanitize());
+
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 10, 
+  message: {
+    status: 429,
+    error: "Too many login attempts. Please try again after 15 minutes.",
+  },
+});
+
+
+app.use(globalLimiter); 
+app.use(helmet());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+
+main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(murl);
   console.log("Connected successfully");
 }
 
-// ✅ ROUTES
-
-app.use("/logout",logout);
-app.use("/login", login);
+app.use("/navbarUpdate",navbarUpdate)
+app.use("/logout", logout);
+app.use("/login", loginLimiter, login); // Login with stricter limiter
 app.use("/", News);
 app.use("/admin", AdminNews);
-app.use("/admin", AdminStatusUpdate);  // ✅ REGISTER THE NEW STATUS UPDATE ROUTE
+app.use("/admin", AdminStatusUpdate);
 app.use("/postNews", PostNews);
-app.use("/viewNews",ViewNews);
+app.use("/viewNews", ViewNews);
 
+// ✅ Start server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

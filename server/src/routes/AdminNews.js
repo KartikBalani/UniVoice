@@ -9,7 +9,6 @@ router.get('/',authenticateToken, async (req, res) => {
 
   try {
     const data = await NewsData.find({ Status: status });
-    console.log("Fetched data:", data);
     res.status(200).send(data);
   } catch (err) {
     console.error("Error fetching data:", err);

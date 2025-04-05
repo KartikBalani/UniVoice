@@ -9,12 +9,11 @@ const Card = ({ thumbnail, description, Date, EditorId, id, status, rejectionRea
     <div className="card" onClick={() => navigate(`/ViewNews/${id}`)}>
       <img src={thumbnail} alt="thumbnail" />
       <hr />
-      <h2>{description}</h2>
+      <h2>{description.length > 60 ? `${description.slice(0, 60)}...` : description}</h2>
       <div className="info">
         {!showStatus && <p>Article By: {EditorId}</p>}
         <p>Submitted on: {Date}</p>
         {/* ✅ Corrected status display */}
-        {showStatus ? <p>Status: {status || "N/A"}</p> : <p>ID: {id}</p>}
         {status === "rejected" && rejectionReason && (
                     <p className="rejection-reason">
                       Rejection Reason: {rejectionReason}

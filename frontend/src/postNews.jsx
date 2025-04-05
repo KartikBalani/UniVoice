@@ -3,37 +3,30 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./postNews.css";
 import axios from "axios";
-import Navbar from "./components/navbar"; 
-import { useUser } from "./context/UserContext"; // Import the context hook
-import { redirect } from "react-router-dom";
-
-
+import Navbar from "./components/navbar";
+import { useUser } from "./context/UserContext";
 
 const PostNews = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [categories, setCategories] = useState([]);
-  // Get the userID from the context
-  const {userType, setUserType, userRoll, setUserRoll} = useUser();
-
+  const { userType, setUserType, userRoll, setUserRoll } = useUser();
+  const [loading, setLoading] = useState(false); // 🔄 Loading state
 
   const handleCategories = (value) => {
     setCategories((prevCategories) =>
       prevCategories.includes(value)
-        ? prevCategories.filter((item) => item !== value) // Remove category
-        : [...prevCategories, value] // Add category
+        ? prevCategories.filter((item) => item !== value)
+        : [...prevCategories, value]
     );
   };
 
   const onSubmit = async (data) => {
-    const formData = new FormData(); // Using FormData for file uploads
-
-    // Append text fields
-    formData.append("userRoll", userRoll); // Add the userID to the form data
+    const formData = new FormData();
+    formData.append("userRoll", userRoll);
     formData.append("Description", data.Description);
     formData.append("article", data.article);
 
-    // Append files (thumbnail + images)
     if (data.thumbnail[0]) {
       formData.append("thumbnail", data.thumbnail[0]);
     }
@@ -43,40 +36,42 @@ const PostNews = () => {
       });
     }
 
-    // Append categories as JSON string (backend must parse it)
     formData.append("categories", JSON.stringify(categories));
 
-    console.log("Submitting form data:", formData);
-
     try {
+      setLoading(true); // ✅ Start loading
+
       const response = await axios.post("http://localhost:3000/postNews", formData, {
-          headers: {
-              "Content-Type": "multipart/form-data"
-          },
-          withCredentials: true
+        headers: {
+          "Content-Type": "multipart/form-data"
+        },
+        withCredentials: true
       });
-      
+
       console.log(response);
       alert("Form submitted successfully!");
-      
-  } catch (error) {
+      navigate('/');
+    } catch (error) {
       console.error("Form submission failed:", error);
-      // Check error status and navigate to login if needed
-      if (error.response && (error.response.status === 401 || 
-                             error.response.status === 403 || 
-                             error.response.status === 404)) {
-          alert("Unathorized person please login to post")
-          navigate("/login");
-      }
-      else{
+      if (
+        error.response &&
+        (error.response.status === 401 ||
+          error.response.status === 403 ||
+          error.response.status === 404)
+      ) {
+        alert("Unauthorized person, please login to post");
+        navigate("/login");
+      } else {
         alert("Form not submitted!");
       }
-  }
+    } finally {
+      setLoading(false); // ✅ Stop loading
+    }
   };
 
   return (
     <>
-      <Navbar userType={userType}/>
+      <Navbar userType={userType} />
       <div className="postNews-Container">
         <h2 style={{ textAlign: "center", marginBottom: "1.5rem", color: "#333" }}>
           Submit News Article
@@ -95,27 +90,24 @@ const PostNews = () => {
           <input type="file" {...register("images")} multiple />
           {errors.images && <p>Enter images</p>}
 
-          {/* Categories - State-based Selection */}
           <div className="categories">
             <h5>Select Categories (one or more)</h5>
             {["club", "college", "alumni", "success", "events"].map((category) => (
               <label key={category}>
                 <input
                   type="checkbox"
-                  checked={categories.includes(category)} // ✅ Simplified condition
+                  checked={categories.includes(category)}
                   onChange={() => handleCategories(category)}
                 />
-                {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalize first letter */}
+                {category.charAt(0).toUpperCase() + category.slice(1)}
               </label>
             ))}
           </div>
 
-          <button type="submit">Submit</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
         </form>
-
-        {/* Debugging Output */}
-        <h3>Selected Categories:</h3>
-        <pre>{JSON.stringify(categories, null, 2)}</pre>
       </div>
     </>
   );
