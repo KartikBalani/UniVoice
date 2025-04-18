@@ -12,7 +12,7 @@ const LoginPage2 = () => {
     const { setUserType, setUserRoll } = useUser();
 
     const onSubmit = (data) => {
-        axios.post('http://localhost:3000/login', data, {
+        axios.post('https://univoice-y7lc.onrender.com/login', data, {
             withCredentials: true
         })
             .then((result) => {
