@@ -65,12 +65,12 @@ const Admin = () => {
   }
   
   // Check auth before component mounts
-  useEffect(() => {
-    if (userType !== "Admin") {
-      alert("Access denied: Admin privileges required");
-      navigate("/login");
-    }
-  }, [userType, navigate]);
+  // useEffect(() => {
+  //   if (userType !== "Admin") {
+  //     alert("Access denied: Admin privileges required");
+  //     navigate("/login");
+  //   }
+  // }, [userType, navigate]);
 
   // Fetch data based on current selected status
   useEffect(() => {
