@@ -5,25 +5,30 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [userType, setUserType] = useState("Guest");
   const [userRoll, setUserRoll] = useState(null);
-  const hasLoaded = useRef(false); // 🔐 Ref to persist across renders
+  const hasLoaded = useRef(false);
 
-  // Load once from localStorage
+  // ✅ Load from localStorage once
   useEffect(() => {
     const storedType = localStorage.getItem("userType");
     const storedRoll = localStorage.getItem("userRoll");
 
-    if (storedType) setUserType(storedType);
-    if (storedRoll) setUserRoll(storedRoll);
+    if (storedType) {
+      setUserType(storedType);
+    }
 
-    hasLoaded.current = true; // ✅ Set ref flag
+    if (storedRoll) {
+      setUserRoll(storedRoll);
+    }
+
+    hasLoaded.current = true;
   }, []);
 
-  // Only save to localStorage after the first load
+  // ✅ Save to localStorage only *after* initial load
   useEffect(() => {
     if (hasLoaded.current) {
       console.log("🔐 Saving to localStorage:", { userType, userRoll });
       localStorage.setItem("userType", userType);
-      localStorage.setItem("userRoll", userRoll);
+      localStorage.setItem("userRoll", userRoll ?? "");
     }
   }, [userType, userRoll]);
 
