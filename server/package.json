@@ -120,7 +120,7 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
