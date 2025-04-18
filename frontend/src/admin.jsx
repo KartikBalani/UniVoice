@@ -1,4 +1,4 @@
-import "react";
+import React from "react";
 import Navbar from "./components/navbar";
 import "./admin.css";
 import { useUser } from "./context/UserContext";
@@ -10,8 +10,7 @@ import RejectCard from "./components/rejectedNewsCard";
 import PendingCard from "./components/pendingNewsCard"; // Don't forget this import!
 
 const Admin = () => {
-
-  const { userType,access } = useUser();
+  const { userType, userRoll } = useUser();
   const [status, setStatus] = useState("pending");
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -27,7 +26,7 @@ const Admin = () => {
 
 
   function SelectCard(props) {
-    const { status, description, article, id, onStatusUpdate , thumbnail } = props;
+    const { status, description, article, id, onStatusUpdate, thumbnail } = props;
   
     if (status === "accepted") {
       return (
@@ -65,14 +64,23 @@ const Admin = () => {
     }
   }
   
-
-  // 👉 Fetch data based on current selected status
+  // Check auth before component mounts
   useEffect(() => {
+    if (userType !== "Admin") {
+      alert("Access denied: Admin privileges required");
+      navigate("/login");
+    }
+  }, [userType, navigate]);
+
+  // Fetch data based on current selected status
+  useEffect(() => {
+    if (userType !== "Admin") return; // Don't fetch if not admin
+    
     axios
       .get("https://univoice-y7lc.onrender.com/admin", {
-        params: { status },
-        headers: {
-          Authorization: `Bearer ${access}`
+        params: { 
+          status,
+          roll: userRoll // Pass the roll for server-side authentication
         },
         withCredentials: true
       })
@@ -91,7 +99,8 @@ const Admin = () => {
           navigate("/login");
         }
       });
-  }, [status, access]);
+  }, [status, userType, userRoll, navigate]);
+
   return (
     <>
       <Navbar/>
