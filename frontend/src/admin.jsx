@@ -69,7 +69,7 @@ const Admin = () => {
   // 👉 Fetch data based on current selected status
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin", {
+      .get("https://univoice-y7lc.onrender.com/admin", {
         params: { status },
         headers: {
           Authorization: `Bearer ${access}`
