@@ -1,32 +1,34 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, useRef } from "react";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userType, setUserType] = useState("Guest");
   const [userRoll, setUserRoll] = useState(null);
-  const [hasLoaded, setHasLoaded] = useState(false); // ✅ Guard to prevent early overwrite
+  const hasLoaded = useRef(false); // 🔐 Ref to persist across renders
 
-  // Load from localStorage once on mount
+  // Load once from localStorage
   useEffect(() => {
     const storedType = localStorage.getItem("userType");
     const storedRoll = localStorage.getItem("userRoll");
 
     if (storedType) setUserType(storedType);
     if (storedRoll) setUserRoll(storedRoll);
-    setHasLoaded(true); // ✅ Allow sync after loading
+
+    hasLoaded.current = true; // ✅ Set ref flag
   }, []);
 
-  // Write to localStorage only after initial load
+  // Only save to localStorage after the first load
   useEffect(() => {
-    if (hasLoaded) {
-      console.log('🔐 Saving to localStorage:', { userType, userRoll });
+    if (hasLoaded.current) {
+      console.log("🔐 Saving to localStorage:", { userType, userRoll });
       localStorage.setItem("userType", userType);
       localStorage.setItem("userRoll", userRoll);
     }
-  }, [userType, userRoll, hasLoaded]);
+  }, [userType, userRoll]);
 
   const updateUser = (newType, newRoll) => {
+    console.log("🆕 updateUser called with:", newType, newRoll);
     setUserType(newType);
     setUserRoll(newRoll);
   };
