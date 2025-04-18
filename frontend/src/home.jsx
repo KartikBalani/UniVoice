@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/", {
+      .get("https://univoice-y7lc.onrender.com/", {
         params: {
           category,
         },
