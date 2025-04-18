@@ -37,10 +37,9 @@ router.post('/', async (req, res) => {
         maxAge:  2 * 60 * 60 * 1000 
       });
       
-      
+      console.log(user.type);
       return res.json({ 
         userType: user.type, 
-        console.log(user.type),
         roll: user.Roll,
       });
     } else {
