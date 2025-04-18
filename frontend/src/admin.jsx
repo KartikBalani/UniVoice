@@ -80,7 +80,6 @@ const Admin = () => {
       .get("https://univoice-y7lc.onrender.com/admin", {
         params: { 
           status,
-          roll: userRoll // Pass the roll for server-side authentication
         },
         withCredentials: true
       })
