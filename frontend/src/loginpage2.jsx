@@ -7,6 +7,7 @@ import { useUser } from './context/UserContext';
 import { FaUserGraduate, FaLock, FaUserShield, FaSignInAlt } from 'react-icons/fa';
 
 const LoginPage2 = () => {
+    const { updateUser } = useUser();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
     const { setUserType, setUserRoll } = useUser();
@@ -17,8 +18,8 @@ const LoginPage2 = () => {
         })
             .then((result) => {
                 console.log(result.data);
-                setUserType(result.data.userType);
-                setUserRoll(result.data.roll);
+                const { userType, roll } = result.data;
+                updateUser(userType, roll);
                 navigate('/');
             })
             .catch((err) => alert(err.response.data));
