@@ -24,8 +24,8 @@ const Home = () => {
       .then((result) => {
         console.log(result.data);
         setCardData(result.data.newsData);
-        setUserRoll(result.data.User.roll)
-        setUserType(result.data.User.type)
+        // setUserRoll(result.data.User.roll)
+        // setUserType(result.data.User.type)
       })
       .catch((err) => {
         alert("error fetching data");
