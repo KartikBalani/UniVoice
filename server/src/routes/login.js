@@ -36,7 +36,8 @@ router.post('/', async (req, res) => {
         sameSite: 'Strict',
         maxAge:  2 * 60 * 60 * 1000 
       });
-      
+
+      console.log(user.Roll);
       console.log(user.type);
       return res.json({ 
         userType: user.type, 
