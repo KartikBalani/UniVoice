@@ -20,6 +20,7 @@ export const UserProvider = ({ children }) => {
   // Write to localStorage only after initial load
   useEffect(() => {
     if (hasLoaded) {
+      console.log('🔐 Saving to localStorage:', { userType, userRoll });
       localStorage.setItem("userType", userType);
       localStorage.setItem("userRoll", userRoll);
     }
