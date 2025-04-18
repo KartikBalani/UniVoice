@@ -18,9 +18,9 @@ const Navbar = ({ setCategory }) => {
           withCredentials: true
         });
         
-        if (res.data?.type) {
-          setUserType(res.data.type); // Updates with "User", "Admin", or "Guest"
-        }
+        // if (res.data?.type) {
+        //   setUserType(res.data.type); // Updates with "User", "Admin", or "Guest"
+        // }
       } catch (error) {
         console.error("Error fetching user info:", error);
       }
