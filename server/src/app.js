@@ -26,6 +26,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT | 3000;
 const murl = process.env.Mongo_URI;
+app.set('trust proxy', 1); // or true
+
 
 
 const globalLimiter = rateLimit({
