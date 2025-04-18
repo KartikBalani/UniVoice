@@ -15,7 +15,7 @@ const ViewNews = () => {
   // Function to fetch data
   const fetchData = async () => {
     try {
-      const result = await axios.get(`http://localhost:3000/viewNews/${slug}`);
+      const result = await axios.get(`https://univoice-y7lc.onrender.com/viewNews/${slug}`);
       setNewsData(result.data);
       setLoading(false);
     } catch (err) {
