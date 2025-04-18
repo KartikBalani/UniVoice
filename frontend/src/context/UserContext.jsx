@@ -11,15 +11,12 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const storedType = localStorage.getItem("userType");
     const storedRoll = localStorage.getItem("userRoll");
-
     if (storedType) {
       setUserType(storedType);
     }
-
     if (storedRoll) {
       setUserRoll(storedRoll);
     }
-
     hasLoaded.current = true;
   }, []);
 
