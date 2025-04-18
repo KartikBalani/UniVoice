@@ -7,11 +7,10 @@ import { useUser } from './context/UserContext';
 import { FaUserGraduate, FaLock, FaUserShield, FaSignInAlt } from 'react-icons/fa';
 
 const LoginPage2 = () => {
-    const { updateUser } = useUser();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
-    const { setUserType, setUserRoll } = useUser();
-
+    const { updateUser } = useUser();
+    
     const onSubmit = (data) => {
         axios.post('https://univoice-y7lc.onrender.com/login', data, {
             withCredentials: true
@@ -22,7 +21,7 @@ const LoginPage2 = () => {
                 updateUser(userType, roll);
                 navigate('/');
             })
-            .catch((err) => alert(err.response.data));
+            .catch((err) => alert(err.response?.data || "Login failed"));
     };
     
     return (
@@ -72,7 +71,10 @@ const LoginPage2 = () => {
                         </div>
                         {errors.type && <span className="error-message">Please select a user type</span>}
                         <div className="guest">
-                            <button onClick={() => navigate('/')}>Continue As Guest</button>
+                            <button type="button" onClick={() => {
+                                updateUser("Guest", null);
+                                navigate('/');
+                            }}>Continue As Guest</button>
                         </div>
                     </div>
                     
