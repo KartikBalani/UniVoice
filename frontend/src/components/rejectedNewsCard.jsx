@@ -15,7 +15,7 @@ const RejectCard = ({ id, description, article, status, onStatusUpdate, thumbnai
       const updatedStatus = status === "rejected" ? "accepted" : status;
 
       const res = await axios.patch(
-        `http://localhost:3000/admin/update-status/${id}`,
+        `https://univoice-y7lc.onrender.com/admin/update-status/${id}`,
         {
           status: updatedStatus,
           changedBy: userRoll || "Unknown Admin", // Use correct roll number
