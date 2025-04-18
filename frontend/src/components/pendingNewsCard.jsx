@@ -22,7 +22,7 @@ const PendingCard = ({ id, description, article, status, onStatusUpdate, thumbna
     }
 
     try {
-      const res = await axios.patch(`http://localhost:3000/admin/update-status/${id}`, {
+      const res = await axios.patch(`https://univoice-y7lc.onrender.com/admin/update-status/${id}`, {
         status: "rejected",
         changedBy: userRoll || "Unknown Admin", // Use correct roll number
         rejectionReason,
