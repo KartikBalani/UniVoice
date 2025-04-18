@@ -5,23 +5,29 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [userType, setUserType] = useState("Guest");
   const [userRoll, setUserRoll] = useState(null);
+  const [hasLoaded, setHasLoaded] = useState(false); // ✅ Guard to prevent early overwrite
 
+  // Load from localStorage once on mount
   useEffect(() => {
     const storedType = localStorage.getItem("userType");
     const storedRoll = localStorage.getItem("userRoll");
 
     if (storedType) setUserType(storedType);
     if (storedRoll) setUserRoll(storedRoll);
+    setHasLoaded(true); // ✅ Allow sync after loading
   }, []);
 
+  // Write to localStorage only after initial load
   useEffect(() => {
-    localStorage.setItem("userType", userType);
-    localStorage.setItem("userRoll", userRoll);
-  }, [userType, userRoll]);
+    if (hasLoaded) {
+      localStorage.setItem("userType", userType);
+      localStorage.setItem("userRoll", userRoll);
+    }
+  }, [userType, userRoll, hasLoaded]);
 
   const updateUser = (newType, newRoll) => {
-    setUserRoll(newRoll);
     setUserType(newType);
+    setUserRoll(newRoll);
   };
 
   return (
@@ -32,4 +38,3 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
-
