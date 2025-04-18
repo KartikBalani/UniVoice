@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
       
       return res.json({ 
         userType: user.type, 
+        console.log(user.type),
         roll: user.Roll,
       });
     } else {
