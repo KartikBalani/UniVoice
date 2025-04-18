@@ -15,7 +15,7 @@ const ProfilePage = () => {
 
         const fetchNews = async () => {
             try {
-                const url = `http://localhost:3000/user-news?editorId=${userRoll}`;
+                const url = `https://univoice-y7lc.onrender.com/user-news?editorId=${userRoll}`;
                 const response = await fetch(url);
                 const data = await response.json();
 
