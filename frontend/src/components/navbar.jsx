@@ -14,7 +14,7 @@ const Navbar = ({ setCategory }) => {
     const fetchUser = async () => {
       try {
         // Change this URL to match your backend route
-        const res = await axios.get("http://localhost:3000/navbarUpdate", {
+        const res = await axios.get("https://univoice-y7lc.onrender.com/navbarUpdate", {
           withCredentials: true
         });
         
