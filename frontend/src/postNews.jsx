@@ -41,7 +41,7 @@ const PostNews = () => {
     try {
       setLoading(true); // ✅ Start loading
 
-      const response = await axios.post("http://localhost:3000/postNews", formData, {
+      const response = await axios.post("https://univoice-y7lc.onrender.com/postNews", formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },
